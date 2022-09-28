@@ -6,12 +6,13 @@ type LastMessageDto struct {
 }
 
 type MessageDto struct {
-	Id             int64  `json:"id"`
-	Message        string `json:"message"`
-	CreatedAt      string `json:"created_at"`
-	SenderId       int64  `json:"sender_id"`
-	SenderName     string `json:"sender_name"`
-	SenderUsername string `json:"sender_username"`
+	Id              int64  `json:"id"`
+	Message         string `json:"message"`
+	CreatedAt       string `json:"created_at"`
+	SenderId        int64  `json:"sender_id"`
+	SenderName      string `json:"sender_name"`
+	SenderUsername  string `json:"sender_username"`
+	SenderPesantren string `json:"sender_pesantren"`
 }
 
 type ResponseMessageDto struct {

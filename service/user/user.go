@@ -31,9 +31,8 @@ func (receiver userService) CreateUser(request requests.AddUserRequest) {
 		}
 	}
 	result := user.Repository.Save(tables.User{
-		Username:  request.Username,
-		FirstName: splitFullName[0],
-		LastName:  lastName,
+		Email: request.Username,
+		Name:  splitFullName[0],
 	})
 
 	system.Context.JSON(response.SUCCESS_CODE, response.SuccessResponse(true, "Success create", result))

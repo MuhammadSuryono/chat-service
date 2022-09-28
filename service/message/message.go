@@ -5,7 +5,6 @@ import (
 	"chat-service/models/response"
 	"chat-service/repository/message"
 	"chat-service/system"
-	"fmt"
 	"math"
 )
 
@@ -31,12 +30,13 @@ func (receiver msg) GetMessageGroup(groupId int64) {
 	var dtoMessages []dto.MessageDto
 	for _, t := range msgs {
 		dtoMessages = append(dtoMessages, dto.MessageDto{
-			Id:             t.Id,
-			Message:        t.Message,
-			CreatedAt:      system.TimeClock(t.CreatedAt),
-			SenderName:     fmt.Sprintf("%s %s", t.Sender.FirstName, t.Sender.LastName),
-			SenderUsername: t.Sender.Username,
-			SenderId:       t.SenderId,
+			Id:              t.Id,
+			Message:         t.Message,
+			CreatedAt:       system.TimeClock(t.CreatedAt),
+			SenderName:      t.Sender.Name,
+			SenderUsername:  t.Sender.Email,
+			SenderId:        t.SenderId,
+			SenderPesantren: t.Sender.Pesantren,
 		})
 	}
 

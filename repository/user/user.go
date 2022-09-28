@@ -32,7 +32,7 @@ func (receiver user) FindByUsername(username string) (u tables.User) {
 
 func (receiver user) FindByUsernameIsExist(username string) bool {
 	var u tables.User
-	database.Connection.Where("username = ?", username).First(&u)
+	database.Connection.Where("email = ?", username).First(&u)
 
-	return username == u.Username
+	return username == u.Email
 }

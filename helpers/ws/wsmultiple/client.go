@@ -32,13 +32,10 @@ func (c *Client) Read() {
 			return
 		}
 
-		if strings.Contains(string(p), "logout") {
+		if strings.Contains(string(p), "CH-1000") {
 			messageType = 1000
 		}
 
-		if strings.Contains(string(p), "login") {
-			messageType = 1001
-		}
 		message := Message{Type: messageType, Body: string(p)}
 		c.Pool.Broadcast <- message
 		fmt.Printf("Message Received: %+v\n", message)

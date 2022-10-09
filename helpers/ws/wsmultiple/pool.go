@@ -1,8 +1,11 @@
 package wsmultiple
 
 import (
+	"chat-service/Exception"
+	msgRepo "chat-service/repository/message"
 	"encoding/json"
 	"fmt"
+	"github.com/sirupsen/logrus"
 )
 
 var ConnectionPool *Pool
@@ -28,8 +31,6 @@ func (pool *Pool) Start() {
 		select {
 		case client := <-pool.Register:
 			pool.Clients[client] = true
-			//userId, _ := strconv.Atoi(client.ID)
-			//conversations.AddNewUserOnline(int64(userId))
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
 			for client, _ := range pool.Clients {
 				client.Conn.WriteJSON(Message{Type: 1, Body: "New user with ID " + client.ID + " joined"})
@@ -45,17 +46,16 @@ func (pool *Pool) Start() {
 		case message := <-pool.Broadcast:
 			fmt.Println("Sending message to all clients in Pool")
 			if message.Type == 1000 {
-				var resp map[string]interface{}
-				json.Unmarshal([]byte(message.Body), &resp)
-				//iUser := resp["user"].(float64)
-				//conversations.RemoveNewUserOnline(int64(iUser))
-			}
+				defer Exception.GetError()
+				var messageChat map[string]interface{}
+				_ = json.Unmarshal([]byte(message.Body), &messageChat)
+				s := msgRepo.Repository.SaveNewMessageChat(messageChat["message"].(string), int64(messageChat["group"].(float64)), int64(messageChat["sender"].(float64)))
+				m, _ := json.Marshal(s)
+				if Exception.ErrorMessage != nil {
+					logrus.Error(fmt.Sprintf("%v", Exception.ErrorMessage))
+				}
 
-			if message.Type == 1001 {
-				var resp map[string]interface{}
-				json.Unmarshal([]byte(message.Body), &resp)
-				//iUser := resp["user"].(float64)
-				//conversations.AddUserOnlineHistory(int64(iUser))
+				message.Body = string(m)
 			}
 
 			for client, _ := range pool.Clients {

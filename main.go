@@ -5,6 +5,7 @@ import (
 	"chat-service/config/database"
 	"chat-service/controller"
 	"chat-service/helpers/ws"
+	"chat-service/helpers/ws/wsmultiple"
 	"chat-service/models/tables"
 	"chat-service/server"
 	"fmt"
@@ -22,6 +23,7 @@ func main() {
 
 	defer Exception.GetError()
 	go ws.H.Run()
+	go wsmultiple.InitWsPool()
 
 	router := server.ConfigServer()
 	controller.Routes(router)

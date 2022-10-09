@@ -7,5 +7,6 @@ func (c controller) Routes(r *gin.RouterGroup) {
 	{
 		g.GET("group", c.getMessageGroup)
 		g.GET("chat/:roomId", c.wsChatConnectionRoom)
+		g.GET("group/chat/:roomId", c.wsChatConnectionRoomGroup)
 	}
 }

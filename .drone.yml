@@ -10,10 +10,10 @@ steps:
       GOARCH: amd64
       CGO_ENABLED: 0
     commands:
-      - echo "DB_HOST=ec2-18-142-248-178.ap-southeast-1.compute.amazonaws.com" > .env
-      - echo "DB_PASS='5FSX65VtBj#sb__G'" >> .env
+      - echo "DB_HOST=ec2-13-228-152-170.ap-southeast-1.compute.amazonaws.com" > .env
+      - echo "DB_PASS='hS1G3bEjpV9H'" >> .env
       - echo "DB_PORT=3306" >> .env
-      - echo "DB_USER=dbuser" >> .env
+      - echo "DB_USER=kemenag" >> .env
       - echo "DB_NAME=db_kemenag" >> .env
       - echo "DB_DRIVER=mysql" >> .env
       - cat .env

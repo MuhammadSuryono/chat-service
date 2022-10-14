@@ -15,7 +15,7 @@ var Service msg
 
 func (receiver msg) GetMessageGroup(groupId int64) {
 	var paginationRequest dto.PaginationDto
-	system.Context.BindQuery(&paginationRequest)
+	_ = system.Context.BindQuery(&paginationRequest)
 
 	if paginationRequest.Page == 0 {
 		paginationRequest.Page = 1
@@ -25,7 +25,7 @@ func (receiver msg) GetMessageGroup(groupId int64) {
 		paginationRequest.Limit = 50
 	}
 
-	msgs := message.Repository.MessageGroup(groupId, paginationRequest.Limit, paginationRequest.Page)
+	msgs, totalMessage := message.Repository.MessageGroup(groupId, paginationRequest.Limit, paginationRequest.Page, paginationRequest.LastDataDate)
 
 	var dtoMessages []dto.MessageDto
 	for _, t := range msgs {
@@ -37,13 +37,8 @@ func (receiver msg) GetMessageGroup(groupId int64) {
 			SenderUsername:  t.Sender.Email,
 			SenderId:        t.SenderId,
 			SenderPesantren: t.Sender.Pesantren,
+			LastDateData:    t.LastDateData,
 		})
-	}
-
-	totalMessage := message.Repository.TotalMessageGroup(groupId)
-	totalPage := math.Round(float64(totalMessage / int64(paginationRequest.Limit)))
-	if totalPage <= 1 {
-		totalPage = 1
 	}
 
 	system.Context.JSON(response.SUCCESS_CODE, response.SuccessResponse(false, "Success", dto.ResponseMessageDto{
@@ -51,7 +46,7 @@ func (receiver msg) GetMessageGroup(groupId int64) {
 		CurrentTotalResponse: int64(len(msgs)),
 		LimitMessage:         paginationRequest.Limit,
 		Page:                 paginationRequest.Page,
-		TotalPage:            int(totalPage),
+		TotalPage:            int(math.Ceil(float64(totalMessage) / float64(paginationRequest.Limit))),
 		Data:                 dtoMessages,
 	}))
 }

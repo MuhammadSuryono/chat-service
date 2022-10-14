@@ -13,6 +13,7 @@ type MessageDto struct {
 	SenderName      string `json:"sender_name"`
 	SenderUsername  string `json:"sender_username"`
 	SenderPesantren string `json:"sender_pesantren"`
+	LastDateData    string `json:"last_data_date"`
 }
 
 type ResponseMessageDto struct {

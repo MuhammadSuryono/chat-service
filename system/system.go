@@ -30,3 +30,8 @@ func TimeClock(t time.Time) string {
 	}
 	return fmt.Sprintf("%02d:%02d", hours, minutes)
 }
+
+func TimeNowString() string {
+	t := time.Now()
+	return fmt.Sprintf("%d-%2d-%2d", t.Year(), t.Month(), t.Day())
+}

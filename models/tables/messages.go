@@ -3,6 +3,7 @@ package tables
 import (
 	"chat-service/config/database"
 	"chat-service/system"
+	"fmt"
 	"gorm.io/gorm"
 	"time"
 )
@@ -17,10 +18,12 @@ type Message struct {
 	CreatedAt     time.Time `json:"-"`
 	UpdatedAt     time.Time `json:"-"`
 	CreateMessage string    `json:"create_message"`
+	LastDateData  string    `json:"last_data_date" gorm:"-"`
 }
 
 func (a *Message) AfterFind(tx *gorm.DB) error {
 	a.CreateMessage = system.TimeClock(a.CreatedAt)
+	a.LastDateData = fmt.Sprintf("%d-%2d-%2d %2d:%2d:%2d", a.CreatedAt.Year(), a.CreatedAt.Month(), a.CreatedAt.Day(), a.CreatedAt.Hour(), a.CreatedAt.Minute(), a.CreatedAt.Second())
 	return database.Connection.Model(&User{}).Where("id = ?", a.SenderId).First(&(a.Sender)).Error
 }
 

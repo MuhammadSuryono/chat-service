@@ -20,7 +20,7 @@ func (g message) LastMessageGroup(groupId int64) (msg tables.Message) {
 func (g message) MessageGroup(groupId int64, limit int, page int, lastDate string) (msg []tables.Message, total int64) {
 	offset := (page * limit) - limit
 	fmt.Println("Offset", offset, page, limit)
-	query := database.Connection.Where("group_id = ?", groupId).Debug().Limit(limit).Order("created_at DESC")
+	query := database.Connection.Where("group_id = ?", groupId).Debug().Offset(offset).Limit(limit).Order("created_at DESC")
 	if lastDate == "" {
 		lastDate = system.TimeNowString()
 	}

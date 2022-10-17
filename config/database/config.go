@@ -113,7 +113,7 @@ func (configDb configOtherDatabase) CreateOtherConnection() {
 
 func mysqlDsn(host, port, user, pass, dbName string) string {
 	return fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=",
-		user, pass, host, port, dbName) + "Asia%2FJakarta"
+		user, pass, host, port, dbName) + "Local"
 }
 
 func sqlDsn(host, port, user, pass, dbName string) string {

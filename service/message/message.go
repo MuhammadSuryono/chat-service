@@ -32,7 +32,7 @@ func (receiver msg) GetMessageGroup(groupId int64) {
 		dtoMessages = append(dtoMessages, dto.MessageDto{
 			Id:              t.Id,
 			Message:         t.Message,
-			CreatedAt:       system.TimeClock(t.CreatedAt),
+			CreatedAt:       t.CreatedAt,
 			SenderName:      t.Sender.Name,
 			SenderUsername:  t.Sender.Email,
 			SenderId:        t.SenderId,

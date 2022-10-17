@@ -23,7 +23,6 @@ type Message struct {
 
 func (a *Message) AfterFind(tx *gorm.DB) error {
 	a.CreateMessage = system.TimeClock(a.CreatedAt)
-
 	a.LastDateData = fmt.Sprintf("%d-%2d-%2d %2d:%2d:%2d", a.CreatedAt.Year(), a.CreatedAt.Month(), a.CreatedAt.Day(), a.CreatedAt.Hour(), a.CreatedAt.Minute(), a.CreatedAt.Second())
 	return database.Connection.Model(&User{}).Where("id = ?", a.SenderId).First(&(a.Sender)).Error
 }

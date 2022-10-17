@@ -10,6 +10,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/plugin/dbresolver"
 	"os"
+	"time"
 )
 
 func (con ConnectionHandler) CreateNewConnection() {
@@ -38,6 +39,10 @@ func CloseConnectionDb(conn *gorm.DB) {
 }
 
 func InitConnectionFromEnvironment() ConnectionHandler {
+	_, err := time.LoadLocation("Asia/Jakarta")
+	if err != nil {
+		return ConnectionHandler{}
+	}
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
 	user := os.Getenv("DB_USER")

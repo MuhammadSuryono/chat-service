@@ -30,8 +30,8 @@ func (g message) MessageGroup(groupId int64, limit int, page int, lastDate strin
 	//
 	//query.Find(&msg)
 	//query.Count(&total)
-	query := database.Connection.Where("group_id = ?", groupId).Debug().Limit(limit).Offset(offset).Order("created_at ASC").Find(&msg)
-	query.Count(&total)
+	database.Connection.Where("group_id = ?", groupId).Debug().Limit(limit).Offset(offset).Order("created_at ASC").Find(&msg)
+	database.Connection.Where("group_id = ?", groupId).Model(&tables.Message{}).Count(&total)
 	//for i, j := 0, len(msg)-1; i < j; i, j = i+1, j-1 {
 	//	msg[i], msg[j] = msg[j], msg[i]
 	//}

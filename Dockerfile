@@ -1,4 +1,5 @@
 FROM alpine:3.12
+ENV TZ="Asia/Jakarta"
 WORKDIR /opt
 COPY .env .
 COPY main .

@@ -20,7 +20,15 @@ func InterfaceToString(value interface{}) string {
 var Context *gin.Context
 
 func TimeClock(t time.Time) string {
-	diff := time.Now().Sub(t)
+	fmt.Println("Time now without location", time.Now(), time.Now().Location())
+	loc, err := time.LoadLocation("Asia/Jakarta")
+	fmt.Println("Timezone start", loc)
+	if err != nil {
+		_ = fmt.Sprintf("Error timezone %v", err)
+	}
+
+	fmt.Println("Time now With location", time.Now().In(loc), time.Now().Location())
+	diff := time.Now().In(loc).Sub(t)
 	hours, minutes, _ := t.Clock()
 	year, month, day := t.Date()
 	if (diff.Hours() > 24 && diff.Minutes() > 0) && diff.Hours() <= 48 {

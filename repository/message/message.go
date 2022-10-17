@@ -52,6 +52,6 @@ func (g message) SaveNewMessageChat(message string, groupId, sender int64) *tabl
 		Message:     message,
 	}
 
-	database.Connection.Create(&msg)
+	database.Connection.Debug().Create(&msg)
 	return msg
 }
